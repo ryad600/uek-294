@@ -13,6 +13,27 @@ a#log-in {
     }
 }
 
+#product-table {
+    width: 80%;
+    text-align: center;
+    margin: auto;
+}
+
+#category-table {
+    width: 40%;
+    text-align: center;
+    margin: auto;
+}
+
+table, th, tr, td {
+    border: solid black 1px;
+    border-collapse: collapse;
+}
+
+#login-form {
+    align-self: center;
+}
+
 h1#start-page {
     text-align: center;
     padding-top: 10%;

@@ -1,7 +1,9 @@
 
 var request;
-
+//username = admin
+//PW = sec!ReT423*&
 function onLoginButtonPressed(event) {
+    event.preventDefault();
     var data = {
         username: loginName.value,
         password: loginPassword.value
@@ -12,17 +14,17 @@ function onLoginButtonPressed(event) {
     request.send(JSON.stringify(data));
 }
 
-//hello
+
 function onRequestUpdate(event) {
     if (request.readyState < 4) {
         return;
     }
     var responseData = request.responseText;
-    if (responseData == true) {
-        alert("Login successful.")
+    if (responseData == "true") {
+        alert("Login successful.");
     }
     else {
-        alert("Login failed.")
+        alert("Login failed.");
     }
 }
 
