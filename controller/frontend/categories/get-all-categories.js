@@ -1,40 +1,46 @@
 var request;
-var deleteButtons = [];
-var editButtons = [];
+var requestDelete;
+var tableRows = [];
 var responseData;
 
 function onOpenPage(event) {
     request = new XMLHttpRequest();
     request.open("GET", "../API/V1/Categories");
     request.onreadystatechange = onRequestUpdate;
-    request.send(JSON.stringify());
+    request.send();
 }
 
 function onCategoryDeleteButtonClicked(event) {
     
     if (confirm("Do you really want to delete the Category with the id: " + event.currentTarget.getAttribute("category-id"))) {
-        request = new XMLHttpRequest();
-        request.open("DELETE", "../API/V1/Product/" + event.currentTarget.getAttribute("category-id"));
-        request.onreadystatechange = onRequestUpdate;
-        request.send(JSON.stringify());
+        requestDelete = new XMLHttpRequest();
+        requestDelete.open("DELETE", "../API/V1/Category/" + event.currentTarget.getAttribute("category-id"));
+        requestDelete.onreadystatechange = onDeleteUpdate;
+        requestDelete.send();
+    }
 
-        alert("deleted");
+}
+
+function onDeleteUpdate(event) {
+    if (requestDelete.readyState < 4) {
+        return;
+    }
+    if (JSON.parse(requestDelete.responseText == "true")) {
+        for (var i = 0; i < tableRows.length; i++) {
+            categoryTable.removeChild(tableRows[i]);
+        
+    }
+    onOpenPage();
+    alert("deleted");
     }
     else {
-        alert("not deletet");
+        alert("This Category has not been found, maybe it has already been deleted!");
     }
 }
 
-function onCreateNewCategoryButtonClicked(event) {
+function onreateNewCategoryButtonClicked(event) {
     window.location = "../category/create-category.html";
 }
-
-
-
-function onDeleteConfirmClicked(event) {
-    
-}
-
 
 function onCategoryEdit(event) {
 
@@ -60,16 +66,14 @@ function onRequestUpdate(event) {
         editCategoryButton.style.fontSize = "16px"
         editCategoryButton.style.width = "30px"
         editCategoryButton.style.height = "30px"
-        editButtons.push(editCategoryButton);
 
         var deleteCategoryButton = document.createElement("button");
-        deleteCategoryButton.addEventListener("click", onCategoryDeleteButtonClicked);
+        deleteCategoryButton.addEventListener("click", onProductsDeleteButtonClicked);
         deleteCategoryButton.setAttribute("category-id", responseData[i].category_id);
         deleteCategoryButton.innerText = "🗑";
         deleteCategoryButton.style.fontSize = "16px"
         deleteCategoryButton.style.width = "30px"
         deleteCategoryButton.style.height = "30px"
-        deleteButtons.push(deleteCategoryButton);
 
         categoryID.innerText = responseData[i].category_id;
         categoryName.innerText = responseData[i].name;
@@ -84,11 +88,13 @@ function onRequestUpdate(event) {
         tableRow.appendChild(categorySettings);
 
         categoryTable.appendChild(tableRow);
+        tableRows.push(tableRow);
+
     }
     var createNewCategoryButton = document.createElement("button");
     createNewCategoryButton.innerText = "Neue Kategorie erstellen";
     createNewCategoryButton.style.width = "100%";
-    createNewCategoryButton.addEventListener("click", oncreateNewCategoryButtonClicked);
+    createNewCategoryButton.addEventListener("click", onreateNewCategoryButtonClicked);
     var createNewCategoryRow = document.createElement("tr");
     var createNewCategoryCell = document.createElement("td");
  
@@ -96,7 +102,7 @@ function onRequestUpdate(event) {
     createNewCategoryRow.appendChild(createNewCategoryCell);
     categoryTable.appendChild(createNewCategoryRow);
     createNewCategoryCell.colSpan = "9";
+    tableRows.push(createNewCategoryRow);
 }
 var categoryTable = document.getElementById("category-table");
-
 window.addEventListener("load", onOpenPage);

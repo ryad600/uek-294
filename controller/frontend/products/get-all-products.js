@@ -1,10 +1,43 @@
 var request;
+var tableRows = [];
 
 function onOpenPage(event) {
     request = new XMLHttpRequest();
     request.open("GET", "../API/V1/Products");
     request.onreadystatechange = onRequestUpdate;
     request.send(JSON.stringify());
+}
+
+function onDeleteProduct(event) {
+    
+    if (confirm("Do you really want to delete this Product with the id: " + event.currentTarget.getAttribute("product-id"))) {
+        requestDelete = new XMLHttpRequest();
+        requestDelete.open("DELETE", "../API/V1/Product/" + event.currentTarget.getAttribute("product-id"));
+        requestDelete.onreadystatechange = onDeleteUpdate;
+        requestDelete.send();
+    }
+
+}
+
+function onDeleteUpdate(event) {
+    if (requestDelete.readyState < 4) {
+        return;
+    }
+    if (JSON.parse(requestDelete.responseText == "true")) {
+        for (var i = 0; i < tableRows.length; i++) {
+            productTable.removeChild(tableRows[i]);
+        
+    }
+    onOpenPage();
+    alert("deleted");
+    }
+    else {
+        alert("This Category has not been found, maybe it has already been deleted!");
+    }
+}
+
+function onProductsEditButtonClicked(event) {
+
 }
 
 function onCreateNewProductButtonPressed(event) {
@@ -30,12 +63,16 @@ function onRequestUpdate(event) {
         var productSettings = document.createElement("td"); 
 
         var editProductButton = document.createElement("button");
+        editProductButton.addEventListener("click", onProductsEditButtonClicked);
+        editProductButton.setAttribute("product-id", responseData[i].product_id);
         editProductButton.innerText = "🖉";
         editProductButton.style.fontSize = "16px"
         editProductButton.style.width = "30px"
         editProductButton.style.height = "30px"
 
         var deleteProductButton = document.createElement("button");
+        deleteProductButton.addEventListener("click", onDeleteProduct);
+        deleteProductButton.setAttribute("product-id", responseData[i].product_id);
         deleteProductButton.innerText = "🗑";
         deleteProductButton.style.fontSize = "16px"
         deleteProductButton.style.width = "30px"
@@ -63,6 +100,7 @@ function onRequestUpdate(event) {
         tableRow.appendChild(stock);
         tableRow.appendChild(productSettings);
 
+        tableRows.push(tableRow);
         productTable.appendChild(tableRow);
     }
     var createNewProductButton = document.createElement("button");
@@ -76,6 +114,7 @@ function onRequestUpdate(event) {
     createNewProductRow.appendChild(createNewProductCell);
     productTable.appendChild(createNewProductRow);
     createNewProductCell.colSpan = "9";
+    tableRows.push(createNewProductRow);
 }
 
 var productTable = document.getElementById("product-table");
