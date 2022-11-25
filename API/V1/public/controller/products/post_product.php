@@ -85,6 +85,7 @@
 			error("The 'sku' field must not be empty.", 400);
 		}
 		if (check_category_id($id_category) === false) {
+			echo $id_category;
 			error("This category doesn't exist, enter valid category or 0 for no category.", 400);
 		}
 		if (empty($name)) {

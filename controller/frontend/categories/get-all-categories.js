@@ -32,7 +32,6 @@ function onDeleteUpdate(event) {
     }
     tableRows.splice(0, tableRows.length);
     onOpenPage();
-    alert("deleted");
     }
     else {
         alert("This Category has not been found, maybe it has already been deleted!");
@@ -40,7 +39,7 @@ function onDeleteUpdate(event) {
 }
 
 function onreateNewCategoryButtonClicked(event) {
-    window.location = "../category/create-category.html";
+    window.location = "create-category.html";
 }
 
 function onCategoryEdit(event) {

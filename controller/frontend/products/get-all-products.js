@@ -30,7 +30,6 @@ function onDeleteUpdate(event) {
     }
     tableRows.splice(0, tableRows.length);
     onOpenPage();
-    alert("deleted");
     }
     else {
         alert("This Category has not been found, maybe it has already been deleted!");
@@ -38,7 +37,7 @@ function onDeleteUpdate(event) {
 }
 
 function onProductsEditButtonClicked(event) {
-
+    window.location = "../products/edit-product.html#" + event.currentTarget.getAttribute("product-id");
 }
 
 function onCreateNewProductButtonPressed(event) {

@@ -17,7 +17,6 @@
 
 		function update_product($product_id, $sku, $active, $id_category, $name, $image, $description, $price, $stock) {
 			global $database;
-
 			$result = $database->query("UPDATE product SET sku = '$sku', active = $active, id_category = $id_category, name = '$name', image = '$image', description =  '$description', price = $price, stock = $stock WHERE product_id = $product_id");
 			if (!$result) {
 				return false;

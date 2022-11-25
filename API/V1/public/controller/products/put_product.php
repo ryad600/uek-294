@@ -85,8 +85,14 @@
 		//check active
 
 		if (isset($request_data["active"])) {
-			
-			if (!is_numeric($request_data["active"]) || $request_data["active"] > 2) {
+			if ($request_data["active"] == true) {
+				$request_data["active"] = 1;
+			}
+			else if ($request_data["active"] == false) {
+				$request_data["active"] = 0;
+			}
+
+			if ($request_data["active"] > 2) {
 				error("Please enter 1 for active or a 0 for not active in the active field.", 400);
 			}
 			$active = $request_data["active"];
@@ -98,7 +104,7 @@
 		//check id_category
 
 		if (isset($request_data["id_category"])) {
-
+			$request_data["id_category"] = intval($request_data["id_category"]);
 			if (!is_numeric($request_data["id_category"])) {
 				error("Please enter a number in the id category field.", 400);
 			}

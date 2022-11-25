@@ -1,10 +1,11 @@
 var request;
 var postProduct;
 var textFields = [];
+var id = location.hash.substring(1);
 
 function onOpenPage(event) {
     request = new XMLHttpRequest();
-    request.open("GET", "../API/V1/Categories");
+    request.open("GET", "../API/V1/Product/" + id);
     request.onreadystatechange = onRequestUpdate;
     request.send();
 }
@@ -14,12 +15,14 @@ function onRequestUpdate(event) {
         return;
     }
     var responseData = JSON.parse(request.responseText)
-    for (let i = 0; i < responseData.length; i++) {
-        var categoryOption = document.createElement("option");
-        categoryOption.value = responseData[i].category_id; 
-        categoryOption.innerText = responseData[i].name
-        productIdCategory.appendChild(categoryOption);
-    }
+    productSku.value = responseData.sku;
+    productActive.value = responseData.active;
+    productIdCategory.value = responseData.id_category;
+    productName.value = responseData.name;
+    productImage.value = responseData.image;
+    productDescription.value = responseData.description;
+    productPrice.value = responseData.price;
+    productStock.value = responseData.stock;
 }
 
 function onSubmitButtonPressed(event) {
@@ -38,7 +41,7 @@ function onSubmitButtonPressed(event) {
         stock: productStock.value
     };
     postProduct = new XMLHttpRequest();
-    postProduct.open("POST", "../API/V1/Product");
+    postProduct.open("PUT", "../API/V1/Product/" + id);
     postProduct.onreadystatechange = submitProduct;
     postProduct.send(JSON.stringify(data));
 }
@@ -49,7 +52,7 @@ function submitProduct(event) {
     }
     var createResponseData = JSON.parse(postProduct.responseText);
     if (createResponseData == true) {
-        alert("Product " + productName.value + " was succesfully created")
+        alert("Product " + productName.value + " was succesfully changed");
     }
     window.location = "../products/index.html";
 }
@@ -65,3 +68,5 @@ var productStock = document.getElementById("product-stock");
 var submitButton = document.getElementById("submitButton");
 submitButton.addEventListener("click", onSubmitButtonPressed);
 window.addEventListener("load", onOpenPage);
+
+
