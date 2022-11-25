@@ -5,12 +5,11 @@
 
 		$result = $database->query("SELECT * FROM category WHERE category_id = $id");
 
-		if ($result->num_rows == 0) {
-			return false;
+		if ( $id == "NULL" || $result->num_rows > 0) {
+			return true;
 		}
 		else {
-			return true;
-			
+			return false;
 		}
 	}
 
@@ -24,7 +23,6 @@
 		}
 		else {
 			return true;
-			
 		}
 	}
 

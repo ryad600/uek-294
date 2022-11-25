@@ -71,7 +71,7 @@
 
 
 		//Clean up all unnecessary tags and add backslashes to safe your database.
-		$sku 			= strip_tags(addslashes($request_data["name"]));
+		$sku 			= strip_tags(addslashes($request_data["sku"]));
 		$active 		= $request_data["active"];
 		$id_category	= $request_data["id_category"];
 		$name 			= strip_tags(addslashes($request_data["name"]));
@@ -85,7 +85,6 @@
 			error("The 'sku' field must not be empty.", 400);
 		}
 		if (check_category_id($id_category) === false) {
-			echo $id_category;
 			error("This category doesn't exist, enter valid category or 0 for no category.", 400);
 		}
 		if (empty($name)) {

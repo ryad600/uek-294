@@ -28,6 +28,7 @@ function onDeleteUpdate(event) {
             productTable.removeChild(tableRows[i]);
         
     }
+    tableRows.splice(0, tableRows.length);
     onOpenPage();
     alert("deleted");
     }

@@ -25,6 +25,12 @@ a#log-in {
     margin: auto;
 }
 
+#create-table {
+    width: 50%;
+    text-align: left;
+    margin: auto;
+}
+
 table, th, tr, td {
     border: solid black 1px;
     border-collapse: collapse;

@@ -28,8 +28,9 @@ function onDeleteUpdate(event) {
     if (JSON.parse(requestDelete.responseText == "true")) {
         for (var i = 0; i < tableRows.length; i++) {
             categoryTable.removeChild(tableRows[i]);
-        
+            
     }
+    tableRows.splice(0, tableRows.length);
     onOpenPage();
     alert("deleted");
     }
@@ -68,7 +69,7 @@ function onRequestUpdate(event) {
         editCategoryButton.style.height = "30px"
 
         var deleteCategoryButton = document.createElement("button");
-        deleteCategoryButton.addEventListener("click", onProductsDeleteButtonClicked);
+        deleteCategoryButton.addEventListener("click", onCategoryDeleteButtonClicked);
         deleteCategoryButton.setAttribute("category-id", responseData[i].category_id);
         deleteCategoryButton.innerText = "🗑";
         deleteCategoryButton.style.fontSize = "16px"
